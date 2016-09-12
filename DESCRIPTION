@@ -1,10 +1,11 @@
 Package: clrlyr
 Type: Package
-Title: Convenience functions for doing data science in R at Clearly.
+Title: Convenience Functions for Doing Data Science in R at Clearly
 Version: 0.1.0
 Author: Who wrote it
 Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than one line)
+Description: Provides convenience functions for common data wrangling tasks in R. 
+    Designed to get new data analysts at Clearly up and running with R.
 License: What license is it under?
 LazyData: TRUE
 Imports: stringi (>= 0.4.1),
