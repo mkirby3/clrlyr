@@ -13,20 +13,28 @@
 #   Check Package:             'Ctrl + Shift + E'
 #   Test Package:              'Ctrl + Shift + T'
 
+# define hello() fxn - test function for {clrlyr} package
 hello <- function() {
-  print("Hello, world!")
+  print("Hello, woRld!")
 }
 
+# define head2() fxn - print top n rows from a df, including ALL columns
 head2 <- function(dat, n = 6L) {
   head(as.data.frame(dat), n)
 }
 
+# define tail2() fxn - print bottom n rows from a df, including ALL columns
 tail2 <- function(dat, n = 6L) {
   tail(as.data.frame(dat), n)
 }
 
-# define prettify_cols() function - clean up column names
+# define prettify_cols() function - prettify column names for use in graphics
 prettify_cols <- function(x, locale = "") {
+
+  if (typeof(x) != "character") {
+    stop("x must be a character vector", call. = FALSE)
+  }
+
   x <- gsub("_", " ", x)
   x <- tolower(x)
   x <- stringi::stri_trans_totitle(
@@ -34,8 +42,12 @@ prettify_cols <- function(x, locale = "") {
   x
 } # end prettify_cols() fxn
 
-# define as_factor_to_chr() fxn - converts all factor columns in a df to chr
-as_character_df <- function(dat) {
+# define coerce_df_cols_to_chr() fxn - converts all factor columns in df to chr
+coerce_df_cols_to_chr <- function(dat) {
+
+  if (typeof(dat) != "list") {
+    stop("dat must be a data frame or list", call. = FALSE)
+  }
 
   is_factor_cols <- purrr::map_lgl(dat, is.factor)
 
@@ -50,9 +62,6 @@ as_character_df <- function(dat) {
     dat
   }
 
-} # end as_character_cols() fxn
-
-
-# test git change
+} # end coerce_df_cols_to_chr() fxn
 
 
