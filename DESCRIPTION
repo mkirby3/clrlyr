@@ -1,0 +1,17 @@
+Package: clrlyr
+Type: Package
+Title: Convenience functions for doing data science in R at Clearly.
+Version: 0.1.0
+Author: Who wrote it
+Maintainer: Who to complain to <yourfault@somewhere.net>
+Description: More about what it does (maybe more than one line)
+License: What license is it under?
+LazyData: TRUE
+Imports: stringi (>= 0.4.1),
+	 magrittr (>= 1.5),
+         dplyr (>= 0.4.3),
+         Rcpp,
+         lazyeval (>= 0.2.0),
+         purrr
+URL: https://github.com/mkirby3/clrlyr
+BugReports: https://github.com/mkirby3/clrlyr/issues
