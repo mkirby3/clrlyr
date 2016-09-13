@@ -64,4 +64,10 @@ coerce_df_cols_to_chr <- function(dat) {
 
 } # end coerce_df_cols_to_chr() fxn
 
+# define as_date() fxn - converts character to date (w/ PDT/PST default tz)
+as_date <- function(x) {
+
+  x
+} # end as_date() fxn
+
 
