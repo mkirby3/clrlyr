@@ -58,4 +58,10 @@ as_date <- function(x) {
   x
 } # end as_date() fxn
 
+# define convert_qp_to_channel() fxn - converts query string parameters
+# from a site visitor's landing page URL to defined channel groups
+convert_qp_to_channel <- function(campaign, src, medium) {
+
+} # end convert_qp_to_channel() fxn
+
 
