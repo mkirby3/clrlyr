@@ -2,12 +2,11 @@ Package: clrlyr
 Type: Package
 Title: Convenience Functions for Doing Data Science in R at Clearly
 Version: 0.1.0
-Author: person("Mike", "Kirby", email = "mkirby1213@gmail.com",
+Authors@R: person("Mike", "Kirby", email = "mkirby1213@gmail.com",
                   role = c("aut", "cre"))
-Maintainer: Who to complain to <yourfault@somewhere.net>
 Description: Provides convenience functions for common data wrangling tasks in R. 
     Designed to get new data analysts at Clearly up and running with R.
-License: What license is it under?
+License: NA
 LazyData: TRUE
 Imports: stringi (>= 0.4.1),
 	 magrittr (>= 1.5),
