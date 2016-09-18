@@ -62,16 +62,26 @@ as_date <- function(x, time_zone = "America/Los_Angeles") {
 # from a site visitor's landing page URL to defined channel groups
 convert_qp_to_channel <- function(campaign, src, medium) {
 
-  if (typeof(campaign) != "character") {
-    stop("campaign must be a character vector", call. = FALSE)
+  # stop function call if input vectors are not character class or have length 0
+  if (length(campaign) < 1 | length(src) < 1 | length(medium) < 1) {
+    stop("each input vector must have length greater than 0", call. = FALSE)
   }
 
-  if (typeof(src) != "character") {
-    stop("src must be a character vector", call. = FALSE)
+  if (is.factor(campaign)) {
+    campaign <- as.character(campaign)
   }
 
-  if (typeof(medium) != "character") {
-    stop("medium must be a character vector", call. = FALSE)
+  if (is.factor(src)) {
+    src <- as.character(src)
+  }
+
+  if (is.factor(medium)) {
+    medium <- as.character(medium)
+  }
+
+  if (typeof(campaign) != "character" | typeof(src) != "character" |
+      typeof(medium) != "character") {
+    stop("each input vector must be a character vector", call. = FALSE)
   }
 
   # create character vector where all values = 'Other'
@@ -144,8 +154,6 @@ convert_qp_to_channel <- function(campaign, src, medium) {
 } # end convert_qp_to_channel() fxn
 
 # 1) change convert_qp_to_channel() fxn so that it can be used in dplyr pipes
-# 2) add stopifnot() fxn for empty character vectors
-# 3) add condition to convert inputs to character from factor (if factor)
 # 2) remove duplication in function - e.g. channel_group[]; grepl();
 #     ignore.case = TRUE; campaign; src; medium
 # 3) check accuracy of channel conversions
