@@ -84,6 +84,62 @@ convert_qp_to_channel <- function(campaign, src, medium) {
     stop("each input vector must be a character vector", call. = FALSE)
   }
 
+  # define regex for each channel group based on campaign, src, medium qps
+  test_ls <- list(campaign = data.frame(
+    regex = c("^(vco(|fr)|display)$",
+              "^(search|brand(|_rlsa))$",
+              "^email$",
+              "^affiliate(|s)$",
+              "^social$",
+              "^cse$",
+              "^pr$"),
+    channel = c("Display",
+                "Paid Search",
+                "Email",
+                "Affiliate",
+                "Paid Social",
+                "CSE",
+                "Referral")),
+    src = data.frame(
+      regex = c("_rt_dy$|_dr(_|$)|mobile|criteo",
+                "^(g[cgb]s|b[cgb]s|y[cgb]s|mobile)$",
+                "^(sale|transactional|refill|lifecycle|promo|abandonedcart)$",
+                "_otb_|^ebates",
+                "^(ls|cj)$|outbrain|retailmenot|bargainmoose|savingstory|redflagdeals",
+                "^(fb|ig|tw|pn|youtube|gp|facebook|reddit|rd|tumblr)$|_yt_|facebook|-fb_",
+                "\\(direct\\)"),
+      channel = c("Display",
+                  "Paid Search",
+                  "Email",
+                  "Affiliate",
+                  "Affiliate",
+                  "Organic Social",
+                  "Direct")),
+    medium = data.frame(
+      regex = c("^referral$",
+                "^(lowerfunnel|midfunnel|fb_rhs)$",
+                "^cpc$",
+                "email|responsys",
+                "smcp|_yt_",
+                "smco",
+                "^cse(|gl|cl)$",
+                "^organic$"),
+      channel = c("Referral",
+                  "Display",
+                  "Paid Search",
+                  "Email",
+                  "Paid Social",
+                  "Organic Social",
+                  "CSE",
+                  "Organic Search")))
+
+  # coerce the vectors in each df in test_ls to character class
+
+  # initialize the channel_group vector
+
+  # apply grepl(regex, [["campaign"]], ignore.case = T) <- channel to each row
+  # of each data frame in test_ls
+
   # create character vector where all values = 'Other'
   channel_group <- rep("Other Paid", times = length(campaign))
 
