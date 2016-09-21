@@ -137,6 +137,8 @@ convert_qp_to_channel <- function(campaign, src, medium) {
 
   # initialize the channel_group vector
 
+  # use fp to optimize this function
+
   # apply grepl(regex, [["campaign"]], ignore.case = T) <- channel to each row
   # of each data frame in test_ls
 
