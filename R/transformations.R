@@ -134,10 +134,11 @@ convert_qp_to_channel <- function(campaign, src, medium) {
                   "Organic Search")))
 
   # coerce the vectors in each df in test_ls to character class
+  for (i in c("campaign", "src", "medium")) {
+    test_ls[[i]] <- map_df(test_ls[[i]], as.character)
+  }
 
   # initialize the channel_group vector
-
-  # use fp to optimize this function
 
   # apply grepl(regex, [["campaign"]], ignore.case = T) <- channel to each row
   # of each data frame in test_ls
