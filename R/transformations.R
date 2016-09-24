@@ -139,73 +139,87 @@ convert_qp_to_channel <- function(campaign, src, medium) {
   }
 
   # initialize the channel_group vector
+  channel_group <- character(length = length(campaign))
+
+  # create list of campaign, source, medium for each raw vector
+  qp_ls <- list(campaign = campaign, src = src, medium = medium)
 
   # apply grepl(regex, [["campaign"]], ignore.case = T) <- channel to each row
   # of each data frame in test_ls
+  for (i in names(test_ls)) {
 
-  # create character vector where all values = 'Other'
-  channel_group <- rep("Other Paid", times = length(campaign))
+    for (j in seq_along(test_ls[[i]]$channel)) {
 
-  # convert medium=referral values to Referral
-  channel_group[grepl("^referral$", medium, ignore.case=T)] <- "Referral"
+      channel_group[grepl(
+        test_ls[[i]]$regex, qp_ls[[i]],
+        ignore.case = TRUE)] <- test_ls[[i]]$channel
 
-  # convert qp values to Display
-  channel_group[grepl("^(vco(|fr)|display)$",
-                   campaign, ignore.case = T)] <- "Display"
-  channel_group[grepl("_rt_dy$|_dr(_|$)|mobile|criteo",
-                   src, ignore.case = T)] <- "Display"
-  channel_group[grepl("^(lowerfunnel|midfunnel|fb_rhs)$",
-                   medium, ignore.case = T)] <- "Display"
+    } # end nrow(test_ls) j loop
+  } # end names(test_ls) i loop
 
-  # convert qp values to Paid Search
-  channel_group[grepl("^(search|brand(|_rlsa))$",
-                   campaign, ignore.case = T)] <- "Paid Search"
-  channel_group[grepl("^(g[cgb]s|b[cgb]s|y[cgb]s|mobile)$",
-                   src, ignore.case = T)] <- "Paid Search"
-  channel_group[grepl("^cpc$",
-                   medium, ignore.case = T)] <- "Paid Search"
-
-  # convert qp values to Email
-  channel_group[grepl("^email$",
-                   campaign, ignore.case = T)] <- "Email"
-  channel_group[grepl("^(sale|transactional|refill|lifecycle|promo|abandonedcart)$",
-                   src, ignore.case = T)] <- "Email"
-  channel_group[grepl("email|responsys",
-                   medium, ignore.case = T)] <- "Email"
-
-  # convert qp values to Affiliate
-  channel_group[grepl("^affiliate(|s)$",
-                   campaign, ignore.case = T)] <- "Affiliate"
-  channel_group[grepl("_otb_|^ebates",
-                   src, ignore.case = T)] <- "Affiliate"
-  channel_group[grepl("^(ls|cj)$|outbrain|retailmenot|bargainmoose|savingstory|redflagdeals",
-                   src, ignore.case = T)] <- "Affiliate"
-
-  # convert qp values to Paid Social
-  channel_group[grepl("^social$", campaign, ignore.case = T)] <- "Paid Social"
-  channel_group[grepl(
-    "^(fb|ig|tw|pn|youtube|gp|facebook|reddit|rd|tumblr)$|_yt_|facebook|-fb_",
-    src, ignore.case = T)] <- "Paid Social"
-  channel_group[grepl("smcp|_yt_", medium, ignore.case = T)] <- "Paid Social"
-
-  # convert qp values to Organic Social
-  channel_group[grepl("^(fb|ig|tw|pn|youtube|gp|facebook|reddit|rd|tumblr)$|_yt_|facebook",
-                   src, ignore.case = T) &
-               grepl("^referral$", medium, ignore.case = T)] <- "Organic Social"
-  channel_group[grepl("smco", medium, ignore.case = T)] <- "Organic Social"
-
-  # convert qp values to CSE
-  channel_group[grepl("^cse$", campaign, ignore.case = T)] <- "CSE"
-  channel_group[grepl("^cse(|gl|cl)$", medium, ignore.case = T)] <- "CSE"
-
-  # convert qp values to Referral
-  channel_group[grepl("^pr$", campaign, ignore.case = T)] <- "Referral"
-
-  # convert qp values to Direct
-  channel_group[grepl("\\(direct\\)", src, ignore.case = T)] <- "Direct"
-
-  # convert qp values to Organic Search
-  channel_group[grepl("^organic$", medium, ignore.case = T)] <- "Organic Search"
+  # # create character vector where all values = 'Other'
+  # channel_group <- rep("Other Paid", times = length(campaign))
+  #
+  # # convert medium=referral values to Referral
+  # channel_group[grepl("^referral$", medium, ignore.case=T)] <- "Referral"
+  #
+  # # convert qp values to Display
+  # channel_group[grepl("^(vco(|fr)|display)$",
+  #                  campaign, ignore.case = T)] <- "Display"
+  # channel_group[grepl("_rt_dy$|_dr(_|$)|mobile|criteo",
+  #                  src, ignore.case = T)] <- "Display"
+  # channel_group[grepl("^(lowerfunnel|midfunnel|fb_rhs)$",
+  #                  medium, ignore.case = T)] <- "Display"
+  #
+  # # convert qp values to Paid Search
+  # channel_group[grepl("^(search|brand(|_rlsa))$",
+  #                  campaign, ignore.case = T)] <- "Paid Search"
+  # channel_group[grepl("^(g[cgb]s|b[cgb]s|y[cgb]s|mobile)$",
+  #                  src, ignore.case = T)] <- "Paid Search"
+  # channel_group[grepl("^cpc$",
+  #                  medium, ignore.case = T)] <- "Paid Search"
+  #
+  # # convert qp values to Email
+  # channel_group[grepl("^email$",
+  #                  campaign, ignore.case = T)] <- "Email"
+  # channel_group[grepl("^(sale|transactional|refill|lifecycle|promo|abandonedcart)$",
+  #                  src, ignore.case = T)] <- "Email"
+  # channel_group[grepl("email|responsys",
+  #                  medium, ignore.case = T)] <- "Email"
+  #
+  # # convert qp values to Affiliate
+  # channel_group[grepl("^affiliate(|s)$",
+  #                  campaign, ignore.case = T)] <- "Affiliate"
+  # channel_group[grepl("_otb_|^ebates",
+  #                  src, ignore.case = T)] <- "Affiliate"
+  # channel_group[grepl("^(ls|cj)$|outbrain|retailmenot|bargainmoose|savingstory|redflagdeals",
+  #                  src, ignore.case = T)] <- "Affiliate"
+  #
+  # # convert qp values to Paid Social
+  # channel_group[grepl("^social$", campaign, ignore.case = T)] <- "Paid Social"
+  # channel_group[grepl(
+  #   "^(fb|ig|tw|pn|youtube|gp|facebook|reddit|rd|tumblr)$|_yt_|facebook|-fb_",
+  #   src, ignore.case = T)] <- "Paid Social"
+  # channel_group[grepl("smcp|_yt_", medium, ignore.case = T)] <- "Paid Social"
+  #
+  # # convert qp values to Organic Social
+  # channel_group[grepl("^(fb|ig|tw|pn|youtube|gp|facebook|reddit|rd|tumblr)$|_yt_|facebook",
+  #                  src, ignore.case = T) &
+  #              grepl("^referral$", medium, ignore.case = T)] <- "Organic Social"
+  # channel_group[grepl("smco", medium, ignore.case = T)] <- "Organic Social"
+  #
+  # # convert qp values to CSE
+  # channel_group[grepl("^cse$", campaign, ignore.case = T)] <- "CSE"
+  # channel_group[grepl("^cse(|gl|cl)$", medium, ignore.case = T)] <- "CSE"
+  #
+  # # convert qp values to Referral
+  # channel_group[grepl("^pr$", campaign, ignore.case = T)] <- "Referral"
+  #
+  # # convert qp values to Direct
+  # channel_group[grepl("\\(direct\\)", src, ignore.case = T)] <- "Direct"
+  #
+  # # convert qp values to Organic Search
+  # channel_group[grepl("^organic$", medium, ignore.case = T)] <- "Organic Search"
 
   # return channel_group vector
   channel_group
