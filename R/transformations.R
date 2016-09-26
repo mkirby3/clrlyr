@@ -161,8 +161,5 @@ convert_qp_to_channel <- function(campaign, src, medium) {
 
 } # end convert_qp_to_channel() fxn
 
-# 1) change convert_qp_to_channel() fxn so that it can be used in dplyr pipes
-# 2) remove duplication in function - e.g. channel_group[]; grepl();
-#     ignore.case = TRUE; campaign; src; medium
 # 3) check accuracy of channel conversions
 # 4) verify that order of operations is ideal
