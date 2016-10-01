@@ -163,3 +163,22 @@ convert_qp_to_channel <- function(campaign, src, medium) {
 
 # 3) check accuracy of channel conversions
 # 4) verify that order of operations is ideal
+
+# define calc_total_rows() fxn - calculates the sum of each metric column
+# grouped by each dimension column supplied to the fxn
+calc_total_rows <- function(dat = NULL, total_columns = NULL) {
+
+  # return dat
+  dat
+
+} # end calc_total_rows() fxn
+
+
+
+
+
+
+
+
+
+
