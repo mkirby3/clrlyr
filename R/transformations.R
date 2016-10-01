@@ -166,15 +166,54 @@ convert_qp_to_channel <- function(campaign, src, medium) {
 
 # define calc_total_rows() fxn - calculates the sum of each metric column
 # grouped by each dimension column supplied to the fxn
-calc_total_rows <- function(dat = NULL, total_columns = NULL) {
+calc_total_rows <- function(dat = NULL, total_columns = c(
+  "country", "product_category", "customer_type",
+  "device_category", "channel_group")) {
 
-  # return dat
-  dat
+  if (typeof(dat) != "list") {
+    stop("dat must be a data frame", call. = FALSE)
+  }
+
+  day_df <- dat
+
+  for (i in total_columns) {
+
+    tmp_df <- day_df
+
+    colnames(tmp_df)[colnames(tmp_df) %in%
+                       total_columns[-grep(i, total_columns)]] <- c(
+                         "column1", "column2", "column3", "column4")
+
+    tmp_df <- tmp_df %>%
+      ungroup() %>%
+      group_by(date, column1, column2, column3, column4) %>%
+      summarise(sessions = sum(sessions), orders = sum(orders),
+                revenue = sum(revenue)) %>%
+      mutate(column5 = c("Total"))
+
+    colnames(tmp_df)[colnames(tmp_df) %in%
+                       c("column1", "column2", "column3", "column4")] <- total_columns[-grep(
+                         i, total_columns)]
+
+    colnames(tmp_df)[grep("column5", colnames(tmp_df))] <- i
+
+    day_df <- day_df %>%
+      merge(tmp_df, all = TRUE)
+
+  } # end i for loop
+
+  # add columns for year, month, week, and date frequeny - plus re-arrange cols
+  day_df <- day_df %>%
+    mutate(year = year(date), month = c(NA), week = c(NA),
+           date_frequency = c("Daily")) %>%
+    select(country, date, year, month, week, date_frequency, product_category,
+           customer_type, device_category, channel_group, sessions, orders,
+           revenue)
+
+  # return appended df containing total rows for all combinations of dims
+  day_df
 
 } # end calc_total_rows() fxn
-
-
-
 
 
 
